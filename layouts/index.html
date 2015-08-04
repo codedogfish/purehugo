@@ -7,28 +7,28 @@
         <div>
             <!-- A wrapper for all the blog posts -->
             <div class="posts">
-                {{ range .Paginator.Pages }}
+                {{ range $index,$element := .Paginator.Pages }}
                 <h1 class="content-subhead">{{ .Date.Format "02 Jan 2006, 15:04" }}</h1>
                 <section class="post">
                     <header class="post-header">
 
-                        <a href="{{ .Permalink }}" class="post-title">{{ .Title }}</a>
+                        <a href="{{ $element.Permalink }}" class="post-title">{{ $element.Title }}</a>
 
                         <p class="post-meta">
-                            {{ with .Params.author }}
+                            {{ with $element.Params.author }}
                                 By <strong class="post-author">{{ . }}</strong>
                             {{ end }}
-                            {{ if isset .Params "categories" }}
-                                under 
+                            {{ if isset $element.Params "categories" }}
                                 {{ $baseUrl := .Site.BaseURL }}
-                                {{ range .Params.categories }}<a class="post-category post-category-{{ . }}" href="{{ $baseUrl }}/categories/{{ . | urlize }}">{{ . }}</a>{{ end }}
+                                {{ range $element.Params.categories }}<a class="post-category post-category-{{ . }}" href="{{ $baseUrl }}/categories/{{ . | urlize }}">{{ . }}</a>{{ end }}
                             {{ end }}
                         </p>
                     </header>
-
-                    <div class="post-description">
-                        {{ .Content }}
-                    </div>
+                    {{if eq $index 0 }} 
+                        <div class="post-description">
+                            {{ $element.Content }}
+                        </div>
+                    {{ end }}
                 </section>
                 {{ end }}
             </div>
